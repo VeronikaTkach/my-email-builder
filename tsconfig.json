@@ -1,0 +1,32 @@
+
+{
+  "compilerOptions": {
+    /* основной модульный формат для Node */
+    "module": "commonjs",
+    /* целевая версия JS */
+    "target": "es2020",
+    /* включаем поддержку декораторов */
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    /* генерация sourcemap */
+    "sourceMap": true,
+    /* вывод в папку dist */
+    "outDir": "./dist",
+    /* корневая папка с исходниками */
+    "rootDir": "./src",
+    /* строгие проверки */
+    "strict": true,
+    /* импорт JSON-модулей */
+    "resolveJsonModule": true,
+    /* чтобы import type работал без ошибок */
+    "esModuleInterop": true,
+    /* пропуск тайпчеков в node_modules */
+    "skipLibCheck": true,
+    /* поддержка JSX, если вдруг нужен .tsx */
+    "jsx": "react-jsx"
+  },
+  /* какие файлы компилировать */
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  /* что не трогать */
+  "exclude": ["node_modules", "dist"]
+}
