@@ -1,5 +1,3 @@
-
-
 export const components = {
   TextBlock: {
     label: 'Текстовый блок',

@@ -1,4 +1,3 @@
-// src/email/email.service.ts
 import { Injectable } from '@nestjs/common'
 import { MailerService } from '@nestjs-modules/mailer'
 
@@ -10,7 +9,7 @@ export class EmailService {
     await this.mailer.sendMail({
       to,
       subject: 'Ваше письмо',
-      html,       // просто линкуем готовый HTML
+      html,
     })
   }
 }

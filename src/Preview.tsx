@@ -1,5 +1,3 @@
-// src/Preview.tsx — можно для отдельного превью
-import React from 'react'
 import { Render, type Data } from '@measured/puck'
 import '@measured/puck/puck.css'
 

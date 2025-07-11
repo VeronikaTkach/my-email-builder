@@ -1,10 +1,8 @@
-// src/puck.config.tsx — GUI-конфиг для Puck
 import type { Config } from '@measured/puck'
 import { DropZone } from '@measured/puck'
 import '@measured/puck/puck.css'
 import { components } from './puck.components'
 
-// Экспортируем тип интерфейса данных
 export interface EmailData {
   TextBlock: { children: string }
   ImageBlock: { src: string; alt?: string }
@@ -12,7 +10,6 @@ export interface EmailData {
   DividerBlock: Record<string, never>
 }
 
-// Конфиг Puck для браузера
 export const config: Config<EmailData> = {
   root: {
     fields: {},

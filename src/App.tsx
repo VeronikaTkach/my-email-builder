@@ -1,6 +1,4 @@
-
 import { Theme, presetGpnDefault } from '@consta/uikit/Theme';
-
 import Editor from './Editor';
 
 function App() {

@@ -1,4 +1,3 @@
-// src/Editor.tsx
 import React, { useState, useCallback, FC } from 'react'
 import { Puck, Render, type Data } from '@measured/puck'
 import '@measured/puck/puck.css'

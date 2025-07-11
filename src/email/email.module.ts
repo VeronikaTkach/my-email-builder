@@ -1,4 +1,3 @@
-// src/email/email.module.ts
 import { Module } from '@nestjs/common'
 import { MailerModule } from '@nestjs-modules/mailer'
 import { EmailService } from './email.service'

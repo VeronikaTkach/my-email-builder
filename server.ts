@@ -1,4 +1,3 @@
-// server.ts — точка входа NestJS
 import 'reflect-metadata'
 import { NestFactory } from '@nestjs/core'
 import { EmailModule } from './src/email/email.module'

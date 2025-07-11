@@ -1,4 +1,3 @@
-// src/email/email.controller.ts
 import { Body, Controller, Post } from '@nestjs/common'
 import { EmailService } from './email.service'
 
