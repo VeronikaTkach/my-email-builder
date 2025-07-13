@@ -173,6 +173,77 @@ const Editor: FC = () => {
     <>
       {/* Вкладки фиксированно у левого края! */}
       <TabsSwitcher sideTab={sideTab} setSideTab={setSideTab} />
+      <style>{`
+        [data-rfd-droppable-id^="component-list:"] {
+          display: grid !important;
+          grid-template-columns: 1fr 1fr !important;
+          gap: 12px !important;
+          margin-top: 12px !important;
+          align-items: stretch !important;
+        }
+        [data-rfd-draggable-id^="component-list:"] {
+          background: #fff !important;
+          border-radius: 12px !important;
+          box-shadow: 0 1px 4px rgba(30,50,100,0.08) !important;
+          aspect-ratio: 1 / 1 !important;
+          min-width: 0 !important;
+          width: 100% !important;
+          height: auto !important;
+          padding: 0 !important;
+          margin: 0 !important;
+          display: flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          font-size: 15px !important;
+          cursor: grab;
+          transition: box-shadow 0.18s;
+        }
+        [data-rfd-draggable-id^="component-list:"]:hover {
+          box-shadow: 0 4px 12px rgba(30,50,100,0.14) !important;
+        }
+        /* Внутри draggable блока - верстка по колонке, все по центру */
+        [data-rfd-draggable-id^="component-list:"] {
+          display: flex !important;
+          flex-direction: column !important;
+          align-items: center !important;
+          justify-content: flex-start !important;
+          padding: 18px 6px 10px 6px !important;
+          gap: 6px !important;
+        }
+
+        /* Иконка - svg или img, берем первый потомок если надо */
+        [data-rfd-draggable-id^="component-list:"] svg,
+        [data-rfd-draggable-id^="component-list:"] img {
+          display: block;
+          margin-bottom: 8px;
+          width: 32px;
+          height: 32px;
+          object-fit: contain;
+          color: #283042;
+          opacity: 0.9;
+        }
+
+        /* Название */
+        [data-rfd-draggable-id^="component-list:"] span,
+        [data-rfd-draggable-id^="component-list:"] .DrawerItem-label {
+          font-size: 16px !important;
+          color: #3d4352;
+          text-align: center;
+          font-weight: 500;
+          margin-bottom: 7px !important;
+        }
+
+        /* Точечки (drag handle) - ищем div с aria-label, можно уточнить селектор если надо */
+        [data-rfd-draggable-id^="component-list:"] [aria-label*="Перетащить"],
+        [data-rfd-draggable-id^="component-list:"] [aria-label*="drag"] {
+          margin-top: auto !important;
+          display: flex !important;
+          justify-content: center !important;
+          opacity: 0.5;
+          margin-bottom: 2px;
+        }
+
+      `}</style>
 
       <div
         style={{
