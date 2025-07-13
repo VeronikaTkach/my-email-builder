@@ -1,10 +1,11 @@
-import React, { useState, useCallback, FC, useEffect, useRef } from 'react'
+import React, { useState, useCallback, FC, useEffect } from 'react'
 import { Puck, Render, type Data } from '@measured/puck'
 import '@measured/puck/puck.css'
 import { renderToStaticMarkup } from 'react-dom/server'
 
 import { config } from './puck.config'
 import type { EmailData } from './puck.config'
+import TabsSwitcher from './TabsSwitcher'
 
 interface HtmlModalProps {
   html: string
@@ -37,7 +38,7 @@ const HtmlModal: FC<HtmlModalProps> = ({
       }}
     >
       <div
-        onClick={(e) => e.stopPropagation()}
+        onClick={e => e.stopPropagation()}
         style={{
           background: '#fff',
           padding: 16,
@@ -64,7 +65,7 @@ const HtmlModal: FC<HtmlModalProps> = ({
             type="email"
             placeholder="Email получателя"
             value={recipient}
-            onChange={(e) => setRecipient(e.target.value)}
+            onChange={e => setRecipient(e.target.value)}
             style={{ flex: 1, padding: 6 }}
           />
           <button
@@ -107,33 +108,15 @@ const HtmlModal: FC<HtmlModalProps> = ({
   )
 }
 
-export default function Editor() {
-  const [data, setData] = useState<Partial<Data<EmailData>>>(() => ({} as any))
+const Editor: FC = () => {
+  const [data, setData] = useState<Partial<Data<EmailData>>>({})
   const [html, setHtml] = useState('')
   const [isModalOpen, setModalOpen] = useState(false)
   const [sending, setSending] = useState(false)
   const [sendResult, setSendResult] = useState('')
   const [sideTab, setSideTab] = useState<'components' | 'outline'>('components')
 
-  // Ref для левой панели (ищем ее в DOM, чтобы вычислить позицию вкладок)
-  const leftPanelRef = useRef<HTMLDivElement | null>(null)
-  const [panelRect, setPanelRect] = useState<{top: number, left: number, width: number} | null>(null)
-
-  // Находим левую панель после монтирования
-  useEffect(() => {
-    const id = setInterval(() => {
-      const panel = document.querySelector('[class*="PuckLayout-leftSideBar"]') as HTMLDivElement
-      if (panel) {
-        leftPanelRef.current = panel
-        const rect = panel.getBoundingClientRect()
-        setPanelRect({ top: rect.top, left: rect.left, width: rect.width })
-        clearInterval(id)
-      }
-    }, 200)
-    return () => clearInterval(id)
-  }, [])
-
-  // Переключаем видимость верхних панелей (components/outline)
+  // Управляем отображением вкладок Puck через CSS-in-JS
   useEffect(() => {
     const style = document.createElement('style')
     style.innerHTML = `
@@ -188,14 +171,17 @@ export default function Editor() {
 
   return (
     <>
+      {/* Вкладки фиксированно у левого края! */}
+      <TabsSwitcher sideTab={sideTab} setSideTab={setSideTab} />
+
       <div
         style={{
           display: 'flex',
           minHeight: '80vh',
-          background: '#fafcff'
+          background: '#fafcff',
         }}
       >
-        {/* Левая колонка: вкладки + Puck */}
+        {/* Левая панель — без вкладок! */}
         <div
           style={{
             minWidth: 320,
@@ -208,59 +194,7 @@ export default function Editor() {
             height: '100vh',
           }}
         >
-          {/* Вкладки */}
-          <div
-            style={{
-              display: 'flex',
-              borderBottom: '1px solid #eaeaea',
-              background: '#f5f9ff',
-              borderTopLeftRadius: 8,
-              borderTopRightRadius: 8,
-              overflow: 'hidden',
-              minHeight: 48,
-              zIndex: 2,
-              position: 'relative',
-            }}
-          >
-            <button
-              onClick={() => setSideTab('components')}
-              style={{
-                flex: 1,
-                padding: 10,
-                background: sideTab === 'components' ? '#005FCC' : 'transparent',
-                color: sideTab === 'components' ? '#fff' : '#222',
-                border: 'none',
-                borderBottom: sideTab === 'components'
-                  ? '3px solid #005FCC'
-                  : '3px solid transparent',
-                cursor: 'pointer',
-                fontWeight: sideTab === 'components' ? 600 : 400,
-                transition: 'all 0.15s',
-              }}
-            >
-              Компоненты
-            </button>
-            <button
-              onClick={() => setSideTab('outline')}
-              style={{
-                flex: 1,
-                padding: 10,
-                background: sideTab === 'outline' ? '#005FCC' : 'transparent',
-                color: sideTab === 'outline' ? '#fff' : '#222',
-                border: 'none',
-                borderBottom: sideTab === 'outline'
-                  ? '3px solid #005FCC'
-                  : '3px solid transparent',
-                cursor: 'pointer',
-                fontWeight: sideTab === 'outline' ? 600 : 400,
-                transition: 'all 0.15s',
-              }}
-            >
-              Структура
-            </button>
-          </div>
-
-          {/* Сам редактор Puck, теперь под вкладками */}
+          {/* Только Puck */}
           <div style={{ flex: 1, minHeight: 0 }}>
             <Puck
               config={config}
@@ -292,10 +226,8 @@ export default function Editor() {
             />
           </div>
         </div>
-        {/* Правая часть — content */}
-        <div style={{ flex: 1, background: '#fff' }}>
-
-        </div>
+        {/* Правая часть — workspace */}
+        <div style={{ flex: 1, background: '#fff' }} />
       </div>
 
       {isModalOpen && (
@@ -310,3 +242,5 @@ export default function Editor() {
     </>
   )
 }
+
+export default Editor
